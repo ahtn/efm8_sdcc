@@ -1,0 +1,2 @@
+obj/../../efm8/efm8_util/delay.rel: ../../efm8/efm8_util/delay.c \
+ ../../efm8/efm8_util/delay.h
