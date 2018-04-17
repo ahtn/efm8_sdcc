@@ -5,6 +5,6 @@
 
 // Disable the watchdog timer
 static inline
-void disable_watchdog(void) {
+void efm8_watchdog_disable(void) {
     PCA0MD &= ~PCA0MD_WDTE__BMASK;
 }

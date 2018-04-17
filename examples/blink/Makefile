@@ -1,37 +1,47 @@
 # Copyright 2017 jem@seethis.link
 # Licensed under the MIT license (http://opensource.org/licenses/MIT)
 
-TARGET	  = blink
-OBJ_DIR	  = obj
-MCU		  = EFM8UB20F32
-PIN_COUNT = 32
-F_CPU	  = 48000000
+TARGET_BASE_NAME = blink
+MCU              = EFM8UB20F32
+MCU_SPECIFIC     = EFM8UB20F32G_QFP32
+PIN_COUNT        = 32
+F_CPU            = 48000000
 
-EFM8_PATH = ../../efm8
-BASE_PATH = .
+EFM8_PATH        = ../../efm8
+BASE_PATH        = .
 
-VPATH += $(BASE_PATH)/src
-INC_PATHS += -I$(BASE_PATH)
-
+# Provide install location of Simplicity Studio for CLI flashing tools
 SIMPLICITY_STUDIO_PATH = $(HOME)/local/simplicity_studio/SimplicityStudio_v4
 
-ifndef
+#######################################################################
+#                             programing                              #
+#######################################################################
+
+ifndef SERIAL_NUM
+  # The serial number of the device to program
+  # Can also be passed on the command line
   SERIAL_NUM = EC3005481E8
 endif
 
 #######################################################################
-#                               content                               #
+#                               boards                                #
 #######################################################################
 
-include $(EFM8_PATH)/efm8.mk
+include $(EFM8_PATH)/boards.mk
 
 #######################################################################
 #                            source files                             #
 #######################################################################
 
+include $(EFM8_PATH)/efm8.mk
+
+# project source
 C_SRC += \
 	main.c \
-	$(EFM8_PATH)/efm8_util/delay.c \
+
+# lib source
+C_SRC += \
+	efm8_util/delay.c \
 
 ASM_SRC = \
 	# crtxinit.S \
@@ -41,34 +51,32 @@ ASM_SRC = \
 #######################################################################
 
 # Using optimize for speed can result in a smaller binary in sdcc
-OPTIMIZATION = --opt-code-speed
-# OPTIMIZATION = --opt-code-size
+# OPTIMIZATION = --opt-code-speed
+OPTIMIZATION = --opt-code-size
 
-AS = /usr/local/bin/sdas8051
-CC = /usr/local/bin/sdcc
-PP = /usr/local/bin/sdcpp
+# Compiler, assembler and preprocessor to use
+AS = sdas8051
+CC = sdcc
+PP = sdcpp
 
+# Extra compiler options
 CFLAGS += \
 	--fomit-frame-pointer \
 	--model-small \
+	# --model-large \
 	# --stack-auto \
 	# --Werror \
-	# --model-small \
 	# --code-movx \
 	# --disable-warning 85 \
-	# --model-large \
-	#
 
-LFLAGS   = \
-	--code-loc $(CODE_LOC) \
-	--code-size $(CODE_SIZE) \
-	--xram-loc  $(XRAM_LOC)\
-	--xram-size $(XRAM_SIZE) \
+# Extra linking options
+LFLAGS += \
 	--iram-size 0x100 \
 	--stack-loc 0x080 \
 	--stack-size 0x060 \
 	# --parms-in-bank1
 
+# Assembler options
 ASFLAGS  = -xglospff
 
 #######################################################################

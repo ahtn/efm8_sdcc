@@ -1,11 +1,11 @@
+# EFM8 SDCC makefiles
 
-# EFM8 SDCC example code
+Simple makefiles and examples for using the EFM8 series of microcontrollers
+with SDCC.
 
-Simple examples designed for use with the SDCC compiler.
+## Example projects
 
-## Examples
-
-* usb_keyboard: 
+* blink: blinks LEDs on pins P2.2 and P2.3.
 
 ## Documentation
 

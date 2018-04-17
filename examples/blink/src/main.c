@@ -13,64 +13,36 @@
 #define LED1 P2_B3
 
 /// Time between blinks
-#define BLINK_DELAY 1000
+#define BLINK_DELAY 250
 
-#if 0
-// SDCC startup routine, runs before main
-uint8_t _sdcc_external_startup () {
-#if 0
-    PCA0MD    &= ~0x40;
-    PCA0MD    = 0x00;
-    // disable_watchdog();
-#else
-    PCA0MD    &= ~0x40;
-    PCA0MD    = 0x00;
-    PCA0CPM0  = 0x21;
-    PCA0CPM1  = 0x21;
-#endif
-    return 0;
-}
-#endif
-
-void io_init() {
+/// Setup io pins
+static void io_init() {
     // P0    -  Skipped,     Open-Drain, Digital
     // P1    -  Skipped,     Open-Drain, Digital
     // P2.2  -  Unassigned,  Push-Pull,  Digital
     // P2.3  -  Unassigned,  Push-Pull,  Digital
-#if 1
+
     P2MDOUT   = PIN2_bm | PIN3_bm;
     P0SKIP    = 0xFF;
     P1SKIP    = 0xFF;
-    // P2SKIP    = 0xFF;
-    XBR1      = 0x40;
-#else
-    P2MDOUT   = 0x0C;
-    P1MDIN 	  = 0xC0;
-    P0SKIP    = 0xFF;
-    P1SKIP    = 0xFF;
-    XBR1      = 0x42;
-#endif
+    P2SKIP    = 0xFF;
+    XBR1      = XBR1_XBARE__ENABLED;
 }
 
-// Setup oscillator and flash read timings
-void oscillator_init() {
-#if 1
+/// Setup oscillator and flash read timings
+static void oscillator_init() {
+    // Flash settings
     FLSCL  = (
         FLSCL_FOSE__ENABLED
         | FLSCL_FLRT__SYSCLK_BELOW_48_MHZ
     );
-    CLKSEL = (
-        (CLKSEL_CLKSL__HFOSC << CLKSEL_CLKSL__SHIFT)
-    );
-#else
-    FLSCL     = 0x90;
-    CLKSEL    = 0x03;
-#endif
+    // Clock settings
+    CLKSEL = CLKSEL_CLKSL__HFOSC;
 }
 
+/// Setup code
 void setup(void) {
-    PCA0MD    &= ~0x40;
-    PCA0MD    = 0x00;
+    efm8_watchdog_disable();
 
     oscillator_init();
     io_init();

@@ -15,12 +15,15 @@
 
 #if defined(MCU_EFM8UB1)
 #  include "EFM8UB1/inc/SI_EFM8UB1_Defs.h"
+#  include "EFM8UB1/inc/SI_EFM8UB1_Devices.h"
 #  include "EFM8UB1/inc/SI_EFM8UB1_Register_Enums.h"
 #elif defined(MCU_EFM8UB2)
 #  include "EFM8UB2/inc/SI_EFM8UB2_Defs.h"
+#  include "EFM8UB2/inc/SI_EFM8UB2_Devices.h"
 #  include "EFM8UB2/inc/SI_EFM8UB2_Register_Enums.h"
 #elif defined(MCU_EFM8UB3)
 #  include "EFM8UB3/inc/SI_EFM8UB3_Defs.h"
+#  include "EFM8UB3/inc/SI_EFM8UB3_Devices.h"
 #  include "EFM8UB3/inc/SI_EFM8UB3_Register_Enums.h"
 #else
 #  warning "Device type not defined"
