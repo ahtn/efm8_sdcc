@@ -13,6 +13,12 @@ BASE_PATH = .
 VPATH += $(BASE_PATH)/src
 INC_PATHS += -I$(BASE_PATH)
 
+SIMPLICITY_STUDIO_PATH = $(HOME)/local/simplicity_studio/SimplicityStudio_v4
+
+ifndef
+  SERIAL_NUM = EC3005481E8
+endif
+
 #######################################################################
 #                               content                               #
 #######################################################################
@@ -65,7 +71,12 @@ LFLAGS   = \
 
 ASFLAGS  = -xglospff
 
+#######################################################################
+#                              recipes                               #
+#######################################################################
+
 include $(EFM8_PATH)/sdcc.mk
+include $(EFM8_PATH)/efm8_program.mk
 
 -include $(DEP_FILES)
 

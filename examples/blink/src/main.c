@@ -12,6 +12,9 @@
 #define LED0 P2_B2
 #define LED1 P2_B3
 
+/// Time between blinks
+#define BLINK_DELAY 1000
+
 #if 0
 // SDCC startup routine, runs before main
 uint8_t _sdcc_external_startup () {
@@ -84,8 +87,8 @@ void main(void) {
 
     while (1) {
         LED0 = !LED0;
-        efm8_delay_ms(1000);
+        efm8_delay_ms(BLINK_DELAY);
         LED1 = !LED1;
-        efm8_delay_ms(1000);
+        efm8_delay_ms(BLINK_DELAY);
     }
 }
